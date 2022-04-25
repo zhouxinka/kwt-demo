@@ -50,4 +50,9 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/getUserById")
+    public User getUserById() {
+        return null;
+    }
+
 }
