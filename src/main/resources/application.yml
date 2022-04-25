@@ -1,0 +1,26 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /jwt-demo
+spring:
+  # 数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybatis_demo?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=PRC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# MybatisPlus
+mybatis-plus:
+  global-config:
+    db-config:
+      field-strategy: IGNORED
+      column-underline: true
+      logic-delete-field: isDeleted # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      db-type: mysql
+      id-type: assign_id
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  type-aliases-package: com.zhifou.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #日志
