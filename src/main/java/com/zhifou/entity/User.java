@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -33,10 +36,13 @@ public class User implements Serializable {
     /**
      * 姓名
      */
+    @NotNull
     private String username;
 
     /**
      * 密码
      */
+    @NotNull
+    @Length(min = 8,max = 16)
     private String password;
 }
