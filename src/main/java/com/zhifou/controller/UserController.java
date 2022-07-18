@@ -79,7 +79,8 @@ public class UserController {
         User userOne = userService.login(user);
         Map<String, Object> data = new HashMap<>();
         if(userOne != null){
-            String token = JwtUtil.createJwtToken(userOne.getId().toString(), 1*60);
+            long expireTime = 1*60;
+            String token = JwtUtil.createJwtToken(userOne.getId().toString(), expireTime);
             data.put("token",token);
             return data;
         }else{
@@ -88,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public List<User> list() {
+    public Map<String, Object> list() {
         /*List<User> list = userService.list();
         String result = "";
         try {
@@ -98,7 +99,9 @@ public class UserController {
         }
         return result;*/
         List<User> list = userService.list();
-        return list;
+        Map<String, Object> data = new HashMap<>();
+        data.put("users",list);
+        return data;
     }
 
     @GetMapping("/getUserById")
