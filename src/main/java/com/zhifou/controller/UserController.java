@@ -1,13 +1,20 @@
 package com.zhifou.controller;
 
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.zhifou.entity.User;
+import com.zhifou.exception.APIException;
 import com.zhifou.service.UserService;
 import com.zhifou.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +30,18 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    static ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
+            @Override
+            public void serialize(Object arg0, JsonGenerator arg1, SerializerProvider arg2)
+                    throws IOException, JsonProcessingException {
+                arg1.writeString("");
+            }
+        });
+    }
 
     //@Autowired
     private UserService userService;
@@ -58,20 +77,28 @@ public class UserController {
     public Map<String, Object> newLogin(@RequestBody @Validated User user) {
         System.out.println("##################newLogin####################");
         User userOne = userService.login(user);
-        String token = JwtUtil.createJwtToken(userOne.getId().toString(), 24 * 10);
         Map<String, Object> data = new HashMap<>();
-        data.put("token",token);
-        return data;
-
+        if(userOne != null){
+            String token = JwtUtil.createJwtToken(userOne.getId().toString(), 1*60);
+            data.put("token",token);
+            return data;
+        }else{
+            throw new APIException("用户不存在");
+        }
     }
 
     @GetMapping("/list")
-    public Map<String, Object> list() {
-        Map<String, Object> result = new HashMap<>();
+    public List<User> list() {
+        /*List<User> list = userService.list();
+        String result = "";
+        try {
+            result = objectMapper.writeValueAsString(list);
+        } catch (JsonProcessingException e) {
+            throw new APIException(e.getMessage());
+        }
+        return result;*/
         List<User> list = userService.list();
-        result.put("code", 200);
-        result.put("data", list);
-        return result;
+        return list;
     }
 
     @GetMapping("/getUserById")

@@ -5,24 +5,24 @@ package com.zhifou.entity;
  * @desc todo
  * @date 2022 07 15 10:22
  */
-public class ResponseEntity {
+public class ResponseEntity<T> {
     private int code;
-    private String message;
-    private Object data;
+    private String msg;
+    private T data;
 
     public static ResponseEntity ok(Object data){
         ResponseEntity responseEntity = new ResponseEntity();
         responseEntity.setCode(CodeEnum.OK.getCode());
-        responseEntity.setMessage(CodeEnum.OK.getMessage());
+        responseEntity.setMsg(CodeEnum.OK.getMsg());
         responseEntity.setData(data);
         return responseEntity;
     }
 
-    public static ResponseEntity error(Object data){
+    public static ResponseEntity error(Object msg){
         ResponseEntity responseEntity = new ResponseEntity();
         responseEntity.setCode(CodeEnum.ERROR.getCode());
-        responseEntity.setMessage(CodeEnum.ERROR.getMessage());
-        responseEntity.setData(data);
+        responseEntity.setMsg((String) msg);
+        responseEntity.setData("");
         return responseEntity;
     }
 
@@ -34,19 +34,19 @@ public class ResponseEntity {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String errorMsg) {
+        this.msg = errorMsg;
     }
 
     public Object getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

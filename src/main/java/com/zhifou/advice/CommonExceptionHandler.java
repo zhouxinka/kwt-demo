@@ -1,6 +1,7 @@
 package com.zhifou.advice;
 
 import com.zhifou.entity.ResponseEntity;
+import com.zhifou.exception.APIException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -25,16 +26,23 @@ public class CommonExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder sb = new StringBuilder("参数校验失败,");
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
+            sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(",");
         }
         String msg = sb.toString();
-        return ResponseEntity.error(msg);
+        return ResponseEntity.error(msg.substring(0,msg.lastIndexOf(",")));
     }
 
-    /*@ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler({APIException.class})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Result handleConstraintViolationException(ConstraintViolationException ex) {
-        return Result.fail(BusinessCode.参数校验失败, ex.getMessage());
-    }*/
+    public ResponseEntity handleMyException(APIException apiException) {
+        return ResponseEntity.error(apiException.getMessage());
+    }
+    //处理其他（以上两种以外）的异常
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResponseEntity handleUnknownException(Exception e) {
+        return ResponseEntity.error(e.getMessage());
+    }
 }
