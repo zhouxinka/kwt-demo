@@ -43,6 +43,7 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseEntity handleUnknownException(Exception e) {
-        return ResponseEntity.error(e.getMessage());
+        System.out.println("发生了其他异常");
+        return ResponseEntity.error(e.toString());
     }
 }

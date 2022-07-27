@@ -1,5 +1,6 @@
 package com.zhifou.interceptor;
 
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.zhifou.entity.ResponseEntity;
@@ -40,13 +41,18 @@ public class MyInterceptor implements HandlerInterceptor {
             responseEntity =  ResponseEntity.error("token已过期");
         } catch (Exception e) {
             e.printStackTrace();
-            //result.put("code", "500");
-            //result.put("msg", "token无效");
             responseEntity = ResponseEntity.error("token无效");
         }
         response.setContentType("application/json;charset=UTF-8");
         //response.getWriter().println(JSONUtil.parse(result));
         response.getWriter().println(JSONUtil.parse(responseEntity));
         return false;
+    }
+
+    public static void main(String[] args) {
+        ResponseEntity responseEntity = ResponseEntity.error("token无效");
+        JSON json = JSONUtil.parse(responseEntity);
+        System.out.println(json);
+        System.out.println(json.toString());
     }
 }

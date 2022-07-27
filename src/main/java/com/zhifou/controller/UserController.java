@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.zhifou.entity.User;
 import com.zhifou.exception.APIException;
-import com.zhifou.service.UserService;
+import com.zhifou.service.impl.UserServiceImpl;
 import com.zhifou.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -44,14 +44,14 @@ public class UserController {
     }
 
     //@Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 如果仅有一个构造器那么@Autowired是可以省略的
      * @param userService
      */
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         System.out.println("UserController的有参构造方法执行了");
         System.out.println( userService.hashCode());
         this.userService = userService;
@@ -90,14 +90,6 @@ public class UserController {
 
     @GetMapping("/list")
     public Map<String, Object> list() {
-        /*List<User> list = userService.list();
-        String result = "";
-        try {
-            result = objectMapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            throw new APIException(e.getMessage());
-        }
-        return result;*/
         List<User> list = userService.list();
         Map<String, Object> data = new HashMap<>();
         data.put("users",list);
