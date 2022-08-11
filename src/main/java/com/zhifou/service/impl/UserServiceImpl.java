@@ -22,12 +22,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     /** 注入ApplicationContext用来发布事件 */
-
+    @Autowired
     private ApplicationContext applicationContext;
-
+    @Autowired
     private OrderService orderService;
 
-    @Autowired
+    /*@Autowired
     public UserServiceImpl(ApplicationContext applicationContext,OrderService orderService) {
         System.out.println("UserServiceImpl有参构造执行了");
         //查看这个applicationContext具体是哪个实现类,是AnnotationConfigServletWebServerApplicationContext
@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         System.out.println(orderService.getOrderId());
         this.applicationContext = applicationContext;
         this.orderService = orderService;
-    }
+    }*/
 
     @Override
     public User login(User user) {

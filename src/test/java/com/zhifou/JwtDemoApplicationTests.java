@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
+
 @SpringBootTest
 class JwtDemoApplicationTests {
     @Autowired
@@ -24,5 +26,9 @@ class JwtDemoApplicationTests {
     void testUserEvent() {
         userService.testUserEvent(1001L);
     }
-
+    @Test
+    void test(){
+        Date data = new java.sql.Date(new Date().getTime());
+        System.out.println("ss"+data);
+    }
 }

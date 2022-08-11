@@ -30,7 +30,6 @@ public class MyInterceptor implements HandlerInterceptor {
         System.out.println("进入了拦截器，被拦截的方法是："+methodName);
         String token = request.getHeader("token");
         System.out.println("token:"+token);
-        //Map<String, Object> result = new HashMap<>();
         ResponseEntity responseEntity = new ResponseEntity();
         try {
             // 校验token,校验失败会抛出异常
@@ -44,7 +43,6 @@ public class MyInterceptor implements HandlerInterceptor {
             responseEntity = ResponseEntity.error("token无效");
         }
         response.setContentType("application/json;charset=UTF-8");
-        //response.getWriter().println(JSONUtil.parse(result));
         response.getWriter().println(JSONUtil.parse(responseEntity));
         return false;
     }

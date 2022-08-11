@@ -18,6 +18,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 // 拦截所有请求
                 .addPathPatterns("/**")
                 // 排除路径，比如用户登录、退出等
-               .excludePathPatterns("/user/login","/user/newLogin");
+               .excludePathPatterns("/user/newLogin");
     }
 }

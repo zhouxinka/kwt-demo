@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.Iterator;
 
 @SpringBootApplication
-@MapperScan("com.zhifou.mapper")
+@MapperScan("com.zhifou.mapper")//扫描DAO接口
 public class JwtDemoApplication {
 
     public static void main(String[] args) {

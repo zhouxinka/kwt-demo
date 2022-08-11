@@ -3,12 +3,29 @@ server:
   servlet:
     context-path: /jwt-demo
 spring:
-  # 数据源
+  # 数据源配置，此处配置一主一从的环境，当前我只有一台，所以此处配置一样的
   datasource:
-    url: jdbc:mysql://localhost:3306/mybatis_demo?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=PRC
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    dynamic:
+      hikari:
+        max-lifetime: 1800000
+        connection-timeout: 5000
+        idle-timeout: 3600000
+        max-pool-size: 12
+        min-idle: 4
+        connection-test-query: /**ping*/
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/mybatis_demo?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=PRC
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        db1:
+          url: jdbc:mysql://localhost:3306/db1?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=PRC
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
 # MybatisPlus
 mybatis-plus:
   global-config:

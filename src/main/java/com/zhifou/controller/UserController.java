@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,6 @@ public class UserController {
         });
     }
 
-    //@Autowired
     private UserServiceImpl userService;
 
     /**
@@ -57,27 +57,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody User user) {
-        System.out.println("##################login####################");
-        Map<String, Object> data = new HashMap<>();
-        User userOne = userService.login(user);
-        if (null != userOne) {
-            data.put("code", 200);
-            data.put("msg", "登陆成功");
-            data.put("token", JwtUtil.createJwtToken(userOne.getId().toString(), 24 * 10));
-        } else {
-            data.put("code", 400);
-            data.put("msg", "账号或者密码错误");
-        }
-        return data;
-    }
-
     @PostMapping("/newLogin")
     public Map<String, Object> newLogin(@RequestBody @Validated User user) {
         System.out.println("##################newLogin####################");
         User userOne = userService.login(user);
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new LinkedHashMap<>();
         if(userOne != null){
             long expireTime = 1*60;
             String token = JwtUtil.createJwtToken(userOne.getId().toString(), expireTime);
